@@ -7,6 +7,22 @@ interface NYTArticle {
   headline: {
     main: string;
   };
+  multimedia: Multimedia; 
+}
+
+//Image interface
+interface Image {
+  url: string;
+  height: number;
+  width: number;
+}
+
+//Multimedia interface
+interface Multimedia {
+  caption: string;
+  credit: string;
+  default?: Image;
+  thumbnail?: Image;
 }
 
 let articles: NYTArticle[] = [];
@@ -15,6 +31,18 @@ let error: string | null = null;
   
 let apiKey: string = '';
 let url: string = '';
+
+//Function to get image URL from article
+const getImageUrl = (article: NYTArticle): string | null => {
+  const mediaUrl = article?.multimedia?.default?.url;
+  if (!mediaUrl) return null;
+
+  if (mediaUrl.startsWith('http')) {
+    return mediaUrl;
+  } else {
+    return `https://static01.nyt.com/${mediaUrl}`;
+  }
+};
 
 //Fetches the API key from the backend and then fetches the articles
   onMount(async () => {
@@ -96,6 +124,13 @@ let url: string = '';
 
 <div class="article" id="upmiddle">
     {#if articles[2]}
+    <img 
+    src={getImageUrl(articles[2])} 
+    id="MiddleTopIMG" 
+    alt={articles[2]?.headline.main}
+    >
+    {/if}
+    {#if articles[2]}
       <h1>
         {articles[2].headline.main}
       </h1>
@@ -106,6 +141,13 @@ let url: string = '';
 <div class="divider"></div> <!--This is one of the vertical lines in between each of the columns-->
 
 <div class="article" id="downmiddle">
+    {#if articles[3]}
+    <img 
+    src={getImageUrl(articles[3])} 
+    id="MiddleIMG" 
+    alt={articles[3]?.headline.main}
+    >
+    {/if}
     {#if articles[3]}
       <h1>
         {articles[3].headline.main}
@@ -126,6 +168,13 @@ let url: string = '';
 </div>
 
 <div class="article" id="downright">
+    {#if articles[5]}
+    <img 
+    src={getImageUrl(articles[5])} 
+    id="DownRightIMG" 
+    alt={articles[5]?.headline.main}
+    >
+    {/if}
     {#if articles[5]}
       <h1>
         {articles[5].headline.main}

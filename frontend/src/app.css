@@ -14,17 +14,7 @@ p{ /*paragraphs*/
 }
 
 /*---- Images ----*/
-#RightIMG{
-  width: 100%;
-  height: auto;
-}
-
-#LeftIMG{
-  width: 100%;
-  height: auto;
-}
-
-#MiddleIMG{
+#RightIMG, #LeftIMG, #MiddleIMG {
   width: 100%;
   height: auto;
 }
@@ -135,7 +125,7 @@ me to read while doing everything else.*/
 
   .wrap{
       display:grid;
-      grid-template-columns: 1.5fr 1px 1fr; /*column is size 3 instead of 2 because one column is going to be left empty so that the divider can sit between them to create the line just like on the original new york times website.*/
+      grid-template-columns: 1fr 1px 1fr; /*column is size 3 instead of 2 because one column is going to be left empty so that the divider can sit between them to create the line just like on the original new york times website.*/
       column-gap: 5px;
       width: 100%;
       height: 100%;
@@ -176,7 +166,7 @@ me to read while doing everything else.*/
   .wrap {
       margin-top: 1em;
       display: grid;
-      grid-template-columns: 1fr 1px 1.75fr 1px 1fr;
+      grid-template-columns: 1fr 1px 1fr 1px 1fr;
       column-gap: 10px;
       width: 100%;
       height: 100%;
