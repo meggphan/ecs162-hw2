@@ -1,5 +1,6 @@
-import { test, describe, it, expect} from 'vitest';
-import { render } from '@testing-library/svelte';
+import { test, describe, it, expect, vi, beforeEach} from 'vitest';
+import '@testing-library/jest-dom';
+import { render, waitFor } from '@testing-library/svelte';
 import App from './App.svelte';
 
 describe('testing if server returns api key', () => {
@@ -12,9 +13,59 @@ describe('testing if server returns api key', () => {
   });
 });
 
+describe('App.svelte', () => {
+  it('displays article[0] content', async () => {
+    global.fetch = vi.fn((url: string) => {
+      if (url.includes('/api/key')) {
+        return Promise.resolve({
+          status: 200,
+          json: () => Promise.resolve({ apiKey: 'fake-key' })
+        });
+      }
+
+      if (url.includes('articlesearch')) {
+        return Promise.resolve({
+          status: 200,
+          json: () =>
+            Promise.resolve({
+              status: 'OK',
+              response: {
+                docs: Array.from({ length: 6 }, (_, i) => ({
+                  _id: `id-${i}`,
+                  web_url: `https://example.com/article-${i}`,
+                  snippet: `Test Snippet ${i}`,
+                  headline: { main: `Test Headline ${i}` },
+                  multimedia: {
+                    caption: '',
+                    credit: '',
+                    default: {
+                      url: 'images/test.jpg',
+                      height: 100,
+                      width: 100
+                    },
+                    thumbnail: undefined
+                  }
+                }))
+              }
+            })
+        });
+      }
+
+      return Promise.reject(new Error('Unexpected fetch'));
+    }) as any;
+
+    const { getByText } = render(App);
+
+    await waitFor(() => {
+      expect(getByText('Test Headline 0')).toBeTruthy();
+      expect(getByText('Test Snippet 0')).toBeTruthy();
+    });
+  });
+});
+
 describe('NYT API format', () => {
   it('returns data in expected format', async () => {
-    const mockNytApiResponse = {
+    const NYTAPI = {
       response: {
         docs: [
           {
@@ -29,7 +80,7 @@ describe('NYT API format', () => {
       }
     };
 
-    const articles = mockNytApiResponse.response.docs.map(doc => ({
+    const articles = NYTAPI.response.docs.map(doc => ({
       title: doc.headline.main,
       article_url: doc.web_url,
       multimedia: doc.multimedia.map(m => m.url),
@@ -49,5 +100,27 @@ describe('NYT API format', () => {
 
     expect(article).toHaveProperty('abstract');
     expect(typeof article.abstract).toBe('string');
+  });
+});
+
+
+describe('NYT API query check', () => {
+  it('should include "Davis OR Sacramento" in the query string', async () => {
+    const fakeKey = 'test-key';
+
+    const fetchSpy = vi.fn().mockResolvedValue({
+      json: () => Promise.resolve({ response: { docs: [] } }),
+      status: 200
+    });
+
+    global.fetch = fetchSpy;
+
+    const url = `https://api.nytimes.com/svc/search/v2/articlesearch.json?q=Davis OR Sacramento&api-key=${fakeKey}`;
+    await fetch(url);
+
+    const calledUrl = fetchSpy.mock.calls[0][0];
+
+    expect(calledUrl).toContain('q=Davis OR Sacramento');
+    expect(calledUrl).toContain('api-key=test-key');
   });
 });
