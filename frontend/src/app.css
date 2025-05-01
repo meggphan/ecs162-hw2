@@ -1,0 +1,242 @@
+body{
+  background-color: #ffffff;
+  margin: 0;
+  font-family: Georgia;
+}
+
+h1{ /*headers*/
+  font-weight: 700;
+}
+
+p{ /*paragraphs*/
+  font-weight: 400;
+  color: #5A5A5A;
+}
+
+/*---- Images ----*/
+#RightIMG{
+  width: 100%;
+  height: auto;
+}
+
+#LeftIMG{
+  width: 100%;
+  height: auto;
+}
+
+#MiddleIMG{
+  width: 100%;
+  height: auto;
+}
+/*---- ^Images^ ----*/
+
+/*This is vertical lines that are placed in between the columns*/
+.divider{
+  background-color:#d9d9d9;
+  width: 2.5px;
+  height: 100%
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 2em;
+  padding-bottom: 1em;
+  border-style: none none solid none;
+  border-color: #d9d9d9;
+  border-width: 2.5px;
+}
+
+.header-left{ /*This is for the date and "today's paper" */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 1em;
+}
+
+#item-1{ /*Changing the font for the date to match and resemble the new york times website more accurately*/
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/*This gets rid of the date and time as well as realign the 
+logo at the top. I put it here becase it made it easier for 
+me to read while doing everything else.*/
+@media only screen and (max-width:1024px) { 
+  .header-left{
+      display: none;
+  }  
+  .header {
+      /*background-color: orange;*/
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+  }
+}
+
+/*___________Phone Mode_________________*/
+@media only screen and (max-width:768px){
+  #TopIMG{
+      padding-right: 0em;
+  }
+  .header{
+      scale: 95%;
+  }
+  .wrap{ /*I recreate the grid for every media query to give me better control of the layout of the articles*/
+      display:grid;
+      grid-template-columns: 1fr;
+      width: 100%;
+      height: 100%;
+      scale: 97%;
+  }
+
+  .article{
+      padding: 1rem;
+  }
+  #upmiddle{
+      padding-top: 0em;
+  }
+  #upmiddle{grid-area: 1;}
+  #upright{grid-area: 3;}
+  #downmiddle{grid-area: 2;}
+  #downright{grid-area: 4;}
+  #simrace{grid-area: 5;}
+  #lastart{grid-area:6;}
+  .line4{grid-area:7;}
+
+  /*Repeatingedly adding top borders to the articles to 
+  create the dividing lines between each of them*/
+  #downmiddle{
+      border-top:2.5px solid #d9d9d9;
+  }
+  #upright{
+      border-top:2.5px solid #d9d9d9;
+  }
+  #downright{
+      border-top:2.5px solid #d9d9d9;
+  }
+  #simrace{
+      border-top:2.5px solid #d9d9d9;
+  }
+  #lastart{
+      border-top:2.5px solid #d9d9d9;
+  }
+}
+
+/*___________Tablet Mode_________________*/
+@media only screen and (min-width:768px){
+  #TopIMG{
+      padding-right: 0em;
+  }
+  .header{
+      scale: 97.5%;
+  }
+
+  .wrap{
+      display:grid;
+      grid-template-columns: 1.5fr 1px 1fr; /*column is size 3 instead of 2 because one column is going to be left empty so that the divider can sit between them to create the line just like on the original new york times website.*/
+      column-gap: 5px;
+      width: 100%;
+      height: 100%;
+      scale: 98%;
+  }
+
+  .article{
+      padding: 1rem;
+  }
+
+  
+
+
+  #upmiddle{grid-area: 1/1;}
+  #upright{grid-area: 1/3;}
+  #downmiddle{grid-area: 2/1;}
+  #downright{grid-area: 2/3;}
+  #simrace{grid-area: 3/1;}
+  #lastart{grid-area:3/3;}
+  .line4{grid-area:4/span 3;}
+
+  #downmiddle{
+      border-top:2.5px solid #d9d9d9;
+  }
+  #downright{
+      border-top:2.5px solid #d9d9d9;
+  }
+  #simrace{
+      border-top:2.5px solid #d9d9d9;
+  }
+  #lastart{
+      border-top:2.5px solid #d9d9d9;
+  }
+}
+
+/*___________Desktop Mode_________________*/
+@media only screen and (min-width:1024px){
+  .wrap {
+      margin-top: 1em;
+      display: grid;
+      grid-template-columns: 1fr 1px 1.75fr 1px 1fr;
+      column-gap: 10px;
+      width: 100%;
+      height: 100%;
+      scale: 99%;
+  }
+
+  .article{
+      padding: 1rem;
+  }
+
+  .line4{grid-area: 4 / span 5;}
+  .line4{
+      scale: 90%;
+  }
+  #simrace{grid-area:1 /  1}
+  #lastart{grid-area:2 /  1}
+  #upmiddle{grid-area:1 /  3}
+  #downmiddle{grid-area: 2 / 3}
+  #upright{grid-area: 1/5}
+  #downright{grid-area: 2/5}
+
+  .divider{
+      background-color:#d9d9d9;
+      width: 2.5px;
+      height: 100%
+  }
+
+  #TopIMG{
+      padding-right: 10em;
+  }
+
+  #lastart{
+      border-top:2.5px solid #d9d9d9;
+  }
+
+  #downmiddle{
+      border-top:2.5px solid #d9d9d9;
+  }
+
+  #downright{
+      border-top:2.5px solid #d9d9d9;
+      padding-right: 2em;
+  }
+
+  #upright{
+      padding-right: 2em;
+  }
+  #simrace{
+      border-top: none;
+  }
+}
+
+#linebottom{
+  display: block;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  margin-left: auto;
+  margin-right: auto;
+  border-style: solid;
+  border-width: 3px;
+  border-color: black;
+}
+
