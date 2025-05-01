@@ -103,7 +103,9 @@ const getImageUrl = (article: NYTArticle): string | null => {
 <div class="article" id="simrace">
     {#if articles[0]}
       <h1>
-        {articles[0].headline.main}
+        <a href={articles[0].web_url}>
+            {articles[0].headline.main}
+          </a>
       </h1>
       <p>{articles[0].snippet}</p>
     {/if}
@@ -114,7 +116,9 @@ const getImageUrl = (article: NYTArticle): string | null => {
 <div class="article" id="lastart">
     {#if articles[1]}
       <h1>
-        {articles[1].headline.main}
+        <a href={articles[1].web_url}>
+            {articles[1].headline.main}
+          </a>
       </h1>
       <p>{articles[1].snippet}</p>
     {/if}
@@ -132,7 +136,9 @@ const getImageUrl = (article: NYTArticle): string | null => {
     {/if}
     {#if articles[2]}
       <h1>
-        {articles[2].headline.main}
+        <a href={articles[2].web_url}>
+            {articles[2].headline.main}
+          </a>
       </h1>
       <p>{articles[2].snippet}</p>
     {/if}
@@ -150,7 +156,9 @@ const getImageUrl = (article: NYTArticle): string | null => {
     {/if}
     {#if articles[3]}
       <h1>
-        {articles[3].headline.main}
+        <a href={articles[3].web_url}>
+            {articles[3].headline.main}
+          </a>
       </h1>
       <p>{articles[3].snippet}</p>
     {/if}
@@ -161,7 +169,9 @@ const getImageUrl = (article: NYTArticle): string | null => {
 <div class="article" id="upright">
     {#if articles[4]}
       <h1>
-        {articles[4].headline.main}
+        <a href={articles[4].web_url}>
+            {articles[4].headline.main}
+          </a>
       </h1>
       <p>{articles[4].snippet}</p>
     {/if}
@@ -177,7 +187,9 @@ const getImageUrl = (article: NYTArticle): string | null => {
     {/if}
     {#if articles[5]}
       <h1>
-        {articles[5].headline.main}
+        <a href={articles[5].web_url}>
+            {articles[5].headline.main}
+          </a>
       </h1>
       <p>{articles[5].snippet}</p>
     {/if}
@@ -186,3 +198,15 @@ const getImageUrl = (article: NYTArticle): string | null => {
 <hr>
 
 </main>
+
+<style>
+    h1 a {
+      color: inherit;
+      text-decoration: none;
+    }
+    
+    h1 a:hover {
+      color: #666;
+      text-decoration: underline;
+    }
+  </style>
