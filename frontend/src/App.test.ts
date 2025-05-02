@@ -1,5 +1,4 @@
 import { test, describe, it, expect, vi, beforeEach} from 'vitest';
-import '@testing-library/jest-dom';
 import { render, waitFor } from '@testing-library/svelte';
 import App from './App.svelte';
 
@@ -14,54 +13,51 @@ describe('testing if server returns api key', () => {
 });
 
 describe('App.svelte', () => {
-  it('displays article[0] content', async () => {
+  it('displays fake article content', async () => {
     global.fetch = vi.fn((url: string) => {
-      if (url.includes('/api/key')) {
+      if(url.includes('/api/key')) {
         return Promise.resolve({
           status: 200,
-          json: () => Promise.resolve({ apiKey: 'fake-key' })
+          json: () => Promise.resolve({ apiKey: 'test-key' })
         });
       }
 
-      if (url.includes('articlesearch')) {
+      if(url.includes('articlesearch')) {
         return Promise.resolve({
           status: 200,
-          json: () =>
-            Promise.resolve({
-              status: 'OK',
-              response: {
-                docs: Array.from({ length: 6 }, (_, i) => ({
-                  _id: `id-${i}`,
-                  web_url: `https://example.com/article-${i}`,
-                  snippet: `Test Snippet ${i}`,
-                  headline: { main: `Test Headline ${i}` },
-                  multimedia: {
-                    caption: '',
-                    credit: '',
-                    default: {
-                      url: 'images/test.jpg',
-                      height: 100,
-                      width: 100
-                    },
-                    thumbnail: undefined
-                  }
-                }))
-              }
-            })
+          json: () => Promise.resolve({
+            status: 'OK',
+            response: {
+              docs: Array.from({length:6}, (_,i) => ({
+                _id: `id-${i}`,
+                web_url: `https://nytimes.com/test-article-${i}`,
+                headline: { main: `Test Headline ${i}` },
+                snippet: `Test Snippet ${i}`,
+                multimedia: {
+                  caption: '',
+                  credit: '',
+                  default: {
+                    url: 'image/test-image.jpg',
+                    width: 100,
+                    height: 100           
+                  },
+                  thumbnail: undefined       
+                }
+              }))
+            }
+          })
         });
       }
-
       return Promise.reject(new Error('Unexpected fetch'));
     }) as any;
-
-    const { getByText } = render(App);
-
+    const {getByText} = render(App);
     await waitFor(() => {
       expect(getByText('Test Headline 0')).toBeTruthy();
       expect(getByText('Test Snippet 0')).toBeTruthy();
     });
   });
 });
+
 
 describe('NYT API format', () => {
   it('returns data in expected format', async () => {
@@ -102,7 +98,6 @@ describe('NYT API format', () => {
     expect(typeof article.abstract).toBe('string');
   });
 });
-
 
 describe('NYT API query check', () => {
   it('should include "Davis OR Sacramento" in the query string', async () => {
